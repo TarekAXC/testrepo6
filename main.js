@@ -6,7 +6,19 @@ const options = {
   }
 };
 
-fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
-  .then(res => res.json())
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
+var container = document.querySelector('.container');
+
+async function fetchData() {
+    let res = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options);
+    let data = await res.json();
+    console.log(data);
+    data = data.results;
+    data.forEach(movie => {
+        console.log(movie);
+        container.innerHTML += `
+        <img src="https://image.tmdb.org/t/p/w1280${movie.poster_path}"/>
+        `
+    });
+};
+
+fetchData();
